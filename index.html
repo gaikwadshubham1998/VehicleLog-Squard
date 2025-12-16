@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shubham Travels Vehicle Trip Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f9f9f9, #e6f7ff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .glass-card {
+            backdrop-filter: blur(10px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #fd7b01, #ff9c3c);
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: 600;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffd700 !important;
+            transition: 0.3s;
+        }
+
+        .brand-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #fd7b01, #ffdd77);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-floating input,
+        .form-floating select {
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .form-floating input:focus,
+        .form-floating select:focus {
+            border-color: #fd7b01;
+            box-shadow: 0 0 5px rgba(253, 123, 1, 0.5);
+        }
+
+        .km-auto {
+            background: #e8ffe8 !important;
+            font-weight: bold;
+        }
+
+        .trip-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: slideIn 0.5s forwards;
+        }
+
+        .trip-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .trip-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .trip-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .trip-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .btn-success,
+        .btn-primary {
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: #25d366;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #007bff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .floating-btn {
+            position: fixed;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: bounce 2s infinite;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .call-btn {
+            bottom: 20px;
+            width: 160px;
+            height: 50px;
+            background: #fd7b01;
+            color: #fff;
+        }
+
+        .track-btn {
+            bottom: 80px;
+            width: 160px;
+            height: 50px;
+            background: #ffdd57;
+            color: #222;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .call-btn:hover {
+            background: #ff9c3c;
+        }
+
+        .track-btn:hover {
+            background: #ffd700;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                font-size: 18px;
+                padding: 0;
+                text-indent: -9999px;
+                /* hides text */
+                overflow: hidden;
+                /* ensures hidden text doesn’t show */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .floating-btn i {
+                text-indent: 0;
+                /* keep icon visible */
+                font-size: 20px;
+                /* adjust icon size */
+            }
+
+            .call-btn {
+                bottom: 15px;
+            }
+
+            .track-btn {
+                bottom: 75px;
+            }
+        }
+
+        footer {
+            background: linear-gradient(135deg, #fd7b01, #ff9c3c);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: #ffd700;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand brand-text" href="#">
+                <i class="fas fa-car-side me-2"></i>Shubham Travels
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Trips</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Billing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://sparkgps.app/app/home" target="_blank">Track
+                            Now</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- RUNNING AD -->
+    <div style="background:#fbfbf9; overflow:hidden; white-space:nowrap; border-bottom:2px solid #fd7b01;">
+        <div
+            style="display:inline-block; padding-left:100%; animation:scroll-left 15s linear infinite; font-weight:600; color:#222; font-size:16px;">
+            🚗 Welcome to Shubham Travels – Book trips easily! | WhatsApp updates! | Contact: 8989343112 / 9146934319
+        </div>
+    </div>
+    <style>
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+
+    <!-- BACKGROUND VIDEO -->
+    <video autoplay muted loop playsinline id="bgVideo">
+        <source src="./Office Background Video HD.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- FORM -->
+    <div class="container py-5">
+        <div class="glass-card p-4">
+            <header style="text-align:left; margin-bottom:20px;">
+                <h1 style="font-size:28px; margin:0; font-weight:700;">Vehicle Trip Record</h1>
+                <p style="font-size:16px; margin:0;">Please enter valid entries only.</p>
+            </header>
+
+            <form id="tripForm" novalidate>
+                <!-- VEHICLE -->
+                <div class="section-title">Vehicle & Driver</div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="date" id="tripDate" class="form-control" required>
+                            <label for="tripDate">Trip Date</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="vehicleNo" required>
+                                <option value="" disabled selected>Select Vehicle</option>
+                                <!-- ✅ COMPLETE FLEET LIST -->
+                                <option value="MH 14 LX 4102">MH 14 LX 4102 (Aura)</option>
+                                <option value="MH 14 KQ 5024">MH 14 KQ 5024 (Tour-H3)</option>
+
+                            </select>
+                            <label for="vehicleNo">Vehicle No</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select id="driverName" class="form-select" required>
+                                <option value="" disabled selected>Select Driver</option>
+                                <!-- ✅ COMPLETE DRIVER LIST -->
+                                <option value="Kisanchand Rohara">Kisanchand Rohara (Lead Driver)</option>
+                                <option value="Shubham Gaikwad">Shubham Gaikwad (Owner)</option>
+
+                            </select>
+                            <label for="driverName">Driver Name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRIP DETAILS -->
+                <div class="section-title">Trip Details</div>
+                <div id="trips"></div>
+
+                <!-- BILLING -->
+                <div class="section-title">Billing</div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="number" id="distanceKm" class="form-control km-auto" readonly>
+                            <label>Total KM</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="number" id="cngCost" class="form-control" step="0.01" min="0">
+                            <label>CNG Cost ₹</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="number" id="additionalCharges" class="form-control" step="0.01" min="0">
+                            <label>Additional Charges ₹</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="number" id="totalAmount" class="form-control km-auto" readonly>
+                            <label>Total Amount ₹</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+                    <button type="button" id="whatsappBtn" class="btn btn-success btn-lg me-md-2">
+                        <i class="fab fa-whatsapp me-2"></i>Send to WhatsApp
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg">Submit & Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FLOATING BUTTONS -->
+    <a href="tel:+918983434112" class="floating-btn call-btn"><i class="fas fa-phone"></i> Call</a>
+    <a href="https://sparkgps.app/app/home" target="_blank" class="floating-btn track-btn"><i
+            class="fas fa-map-marker-alt"></i> Track</a>
+
+    <!-- FOOTER -->
+    <footer>
+        © <span id="currentYear"></span> <strong>Shubham Travels</strong>.
+        All Rights Reserved. |
+        <a href="#">Privacy Policy</a> |
+        Designed & Developed by
+        <a href="https://sgwebtechnologies.com" target="_blank" rel="noopener noreferrer">
+            SG Web Technologies
+        </a>
+    </footer>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // AUTO UPDATE YEAR
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // SET TODAY'S DATE
+        document.getElementById('tripDate').valueAsDate = new Date();
+
+        // CREATE 4 TRIPS
+        const tripsDiv = document.getElementById("trips");
+        for (let i = 1; i <= 4; i++) {
+            tripsDiv.innerHTML += `
+                <div class="trip-card">
+                    <strong>Trip ${i}${i > 2 ? ' (Optional)' : ''}</strong>
+                    <div class="row g-2 mt-2">
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="time" id="tripTime${i}" class="form-control" ${i <= 2 ? 'required' : ''}>
+                                <label for="tripTime${i}">Time</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="text" id="tripId${i}" class="form-control" placeholder="Trip ID" ${i <= 2 ? 'required' : ''}>
+                                <label for="tripId${i}">Trip ID</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" id="trip${i}Pickup" class="form-control" placeholder="Pickup" ${i <= 2 ? 'required' : ''}>
+                                <label for="trip${i}Pickup">Pickup</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" id="trip${i}Drop" class="form-control" placeholder="Drop" ${i <= 2 ? 'required' : ''}>
+                                <label for="trip${i}Drop">Drop</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="number" id="trip${i}Km" class="form-control km-input" placeholder="KM" step="0.1" min="0" ${i <= 2 ? 'required' : ''}>
+                                <label for="trip${i}Km">KM</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // CALCULATE TOTAL KM
+        function calcKM() {
+            let total = 0;
+            document.querySelectorAll('.km-input').forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v) && v > 0) total += v;
+            });
+            document.getElementById('distanceKm').value = total.toFixed(1);
+            calcTotalAmount();
+        }
+
+        // CALCULATE TOTAL AMOUNT
+        function calcTotalAmount() {
+            const cng = parseFloat(document.getElementById('cngCost').value) || 0;
+            const add = parseFloat(document.getElementById('additionalCharges').value) || 0;
+            document.getElementById('totalAmount').value = (cng + add).toFixed(2);
+        }
+
+        // EVENT LISTENERS
+        document.addEventListener('input', function (e) {
+            if (e.target.matches('.km-input')) calcKM();
+            if (e.target.matches('#cngCost, #additionalCharges')) calcTotalAmount();
+        });
+
+        // WHATSAPP BUTTON
+        // VALIDATION
+        function validateForm() {
+            const vehicle = document.getElementById('vehicleNo').value;
+            const driver = document.getElementById('driverName').value;
+            const trip1Km = document.getElementById('trip1Km').value;
+            const trip1Id = document.getElementById('tripId1').value.trim();
+
+            if (!vehicle) { alert('❌ Please select a Vehicle.'); return false; }
+            if (!driver) { alert('❌ Please select a Driver.'); return false; }
+            if (!trip1Id || !trip1Km || parseFloat(trip1Km) <= 0) {
+                alert('❌ Trip 1 must have valid Trip ID and KM (>0).'); return false;
+            }
+            return true;
+        }
+
+        // CALCULATE TOTAL KM
+        function calcKM() {
+            let total = 0;
+            document.querySelectorAll('.km-input').forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v) && v > 0) total += v;
+            });
+            document.getElementById('distanceKm').value = total.toFixed(1);
+            calcTotalAmount();
+        }
+
+        // CALCULATE TOTAL AMOUNT
+        function calcTotalAmount() {
+            const cng = parseFloat(document.getElementById('cngCost').value) || 0;
+            const add = parseFloat(document.getElementById('additionalCharges').value) || 0;
+            document.getElementById('totalAmount').value = (cng + add).toFixed(2);
+        }
+
+        // INPUT LISTENERS
+        document.addEventListener('input', function (e) {
+            if (e.target.matches('.km-input')) calcKM();
+            if (e.target.matches('#cngCost, #additionalCharges')) calcTotalAmount();
+        });
+
+
+        const sheetAPI = 'https://sheetdb.io/api/v1/qa5f0oltk4m5q';
+
+        // VALIDATION
+        function validateForm() {
+            const vehicle = document.getElementById('vehicleNo').value;
+            const driver = document.getElementById('driverName').value;
+            const trip1Km = document.getElementById('trip1Km').value;
+            const trip1Id = document.getElementById('tripId1').value.trim();
+
+            if (!vehicle) { alert('❌ Please select a Vehicle.'); return false; }
+            if (!driver) { alert('❌ Please select a Driver.'); return false; }
+            if (!trip1Id || !trip1Km || parseFloat(trip1Km) <= 0) {
+                alert('❌ Trip 1 must have valid Trip ID and KM (>0).'); return false;
+            }
+            return true;
+        }
+
+        // CALCULATE TOTAL KM
+        function calcKM() {
+            let total = 0;
+            document.querySelectorAll('.km-input').forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v) && v > 0) total += v;
+            });
+            document.getElementById('distanceKm').value = total.toFixed(1);
+            calcTotalAmount();
+        }
+
+        // CALCULATE TOTAL AMOUNT
+        function calcTotalAmount() {
+            const cng = parseFloat(document.getElementById('cngCost').value) || 0;
+            const add = parseFloat(document.getElementById('additionalCharges').value) || 0;
+            document.getElementById('totalAmount').value = (cng + add).toFixed(2);
+        }
+
+        // INPUT LISTENERS
+        document.addEventListener('input', function (e) {
+            if (e.target.matches('.km-input')) calcKM();
+            if (e.target.matches('#cngCost, #additionalCharges')) calcTotalAmount();
+        });
+
+        // ======================
+        // WHATSAPP BUTTON ONLY
+        // ======================
+        document.getElementById('whatsappBtn').onclick = function () {
+            if (!validateForm()) return;
+
+            const vehicle = document.getElementById('vehicleNo').value;
+            const driver = document.getElementById('driverName').value;
+            const date = document.getElementById('tripDate').value;
+            const totalKM = document.getElementById('distanceKm').value || '0';
+            const cng = document.getElementById('cngCost').value || '0';
+            const additional = document.getElementById('additionalCharges').value || '0';
+            const totalAmount = document.getElementById('totalAmount').value || '0';
+
+            let tripsMsg = '';
+            for (let i = 1; i <= 4; i++) {
+                const km = document.getElementById(`trip${i}Km`).value;
+                if (km && parseFloat(km) > 0) {
+                    tripsMsg +=
+                        `🚩 *Trip ${i}*
+⏰ Time: ${document.getElementById(`tripTime${i}`).value || 'N/A'}
+🆔 ID: ${document.getElementById(`tripId${i}`).value}
+📍 Pickup: ${document.getElementById(`trip${i}Pickup`).value}
+📍 Drop: ${document.getElementById(`trip${i}Drop`).value}
+📏 Distance: ${km} km
+───────────────
+`;
+                }
+            }
+
+            const msg =
+                `🚌 *SHUBHAM TRAVELS – TRIP RECORD*
+════════════════
+
+📅 *Date:* ${date}
+🚗 *Vehicle:* ${vehicle}
+👨 *Driver:* ${driver}
+
+${tripsMsg}
+💰 *BILLING SUMMARY*
+════════════════
+📏 Total KM: ${totalKM} km
+⛽ CNG Cost: ₹${cng}
+➕ Additional Charges: ₹${additional}
+💵 *TOTAL AMOUNT: ₹${totalAmount}*
+
+🙏 Thank you for choosing *Shubham Travels*!`;
+
+            // Open WhatsApp only, NO SheetDB call here
+            window.open(`https://wa.me/918983434112?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        // ======================
+        // FORM SUBMIT – ONLY SAVE TO DATABASE
+        // ======================
+        document.getElementById('tripForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            const formData = {
+                Date: document.getElementById('tripDate').value,
+                Vehicle: document.getElementById('vehicleNo').value,
+                Driver: document.getElementById('driverName').value,
+                Total_KM: document.getElementById('distanceKm').value,
+                CNG_Cost: document.getElementById('cngCost').value || 0,
+                Additional_Charges: document.getElementById('additionalCharges').value || 0,
+                Total_Amount: document.getElementById('totalAmount').value || 0
+            };
+
+            for (let i = 1; i <= 4; i++) {
+                const km = document.getElementById(`trip${i}Km`).value;
+                if (km && parseFloat(km) > 0) {
+                    formData[`Trip${i}_ID`] = document.getElementById(`tripId${i}`).value;
+                    formData[`Trip${i}_Time`] = document.getElementById(`tripTime${i}`).value;
+                    formData[`Trip${i}_Pickup`] = document.getElementById(`trip${i}Pickup`).value;
+                    formData[`Trip${i}_Drop`] = document.getElementById(`trip${i}Drop`).value;
+                    formData[`Trip${i}_KM`] = km;
+                }
+            }
+
+            try {
+                const response = await fetch(sheetAPI, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: [formData] })
+                });
+
+                if (response.ok) {
+                    alert('✅ Trip record saved successfully!');
+                    // Clear form after saving
+                    document.getElementById('tripForm').reset();
+                    document.getElementById('distanceKm').value = '';
+                    document.getElementById('totalAmount').value = '';
+                    document.getElementById('tripDate').valueAsDate = new Date();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                console.error('Submit error:', error);
+                alert('❌ Error saving data. Please try WhatsApp option.');
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
