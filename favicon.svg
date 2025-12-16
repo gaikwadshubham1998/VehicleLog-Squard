@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="40" fill="#fd7b01"/>
+  <path d="M30 40 L50 20 L70 40 L70 60 L30 60 Z" fill="#fff"/>
+  <circle cx="45" cy="45" r="5" fill="#000"/>
+  <circle cx="55" cy="45" r="5" fill="#000"/>
+</svg></content>
+<parameter name="filePath">c:\Shubham_fullstack\Projects\deployed\VehicleLog-Squard\favicon.svg
